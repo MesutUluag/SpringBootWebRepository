@@ -1,39 +1,39 @@
 package com.mesut.springWeb.service;
 
-import com.mesut.springWeb.dao.EmployeeDAOImplJPA;
+import com.mesut.springWeb.dao.EmployeeDAOSpringDataJPA;
 import com.mesut.springWeb.entity.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
-    EmployeeDAOImplJPA employeeDAOImplJPA;
+    EmployeeDAOSpringDataJPA employeeDAOSpringDataJPA;
 
     @Override
-    @Transactional
     public List<Employee> findAll() {
 
-        return employeeDAOImplJPA.findAll();
+        return employeeDAOSpringDataJPA.findAll();
     }
 
     @Override
-    @Transactional
-    public Employee findbyID(int id) {
-        return employeeDAOImplJPA.findbyID(id);
+    public Optional<Employee> findbyID(int id) {
+        Optional<Employee> employee=employeeDAOSpringDataJPA.findById(id);
+        if(employee.isPresent()){
+            return employee;
+        } else throw new RuntimeException("Employee Do not Exists");
     }
 
     @Override
-    @Transactional
     public void updateEmployee(Employee employee) {
-        employeeDAOImplJPA.updateEmployee(employee);
+        employeeDAOSpringDataJPA.save(employee);
     }
 
     @Override
-    @Transactional
     public void deleteEmployee(int id) {
-        employeeDAOImplJPA.deleteEmployee(id);
+        employeeDAOSpringDataJPA.deleteById(id);
     }
 }

@@ -1,12 +1,12 @@
 package com.mesut.springWeb.restControllers;
 
-import com.mesut.springWeb.dao.EmployeeDAO;
 import com.mesut.springWeb.entity.Employee;
 import com.mesut.springWeb.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -20,7 +20,7 @@ public class EmployeeRestController {
     }
 
     @GetMapping("/employees/{employeeId}")
-    public Employee getEmployee(@PathVariable int employeeId){
+    public Optional<Employee> getEmployee(@PathVariable int employeeId){
         return employeeService.findbyID(employeeId);
     }
 
